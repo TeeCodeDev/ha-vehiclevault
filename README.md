@@ -14,7 +14,7 @@ Official Home Assistant custom integration for **[VehicleVault](https://github.c
 - **Dedicated Device Per Vehicle:** Automatically groups all sensors under each vehicle in your garage (e.g. *KIA NIRO*, *Golf 7*, *Tesla Model 3*).
 - **Comprehensive Telemetry:**
   - 🚗 **Odometer** (`km`) with native distance device class and total increasing state.
-  - 🛡️ **APK Status & Expiration Date** (`sensor.kia_niro_apk_vervaldatum`) and days remaining with overdue alerts.
+  - 🛡️ **APK Status & Expiration Date** (`sensor.kia_niro_apk_expiration_date`) and days remaining with overdue alerts.
   - ⛽ **Fuel Economy** in both `km/L` and `L/100km`.
   - 💶 **Last Fill-up Details** (Total cost, volume in liters or kWh, fuel station name, and unit price).
   - ⚡ **PHEV & EV Ready:** Seamlessly handles electric charging sessions (kWh) as well as conventional fuels.
@@ -50,7 +50,7 @@ Official Home Assistant custom integration for **[VehicleVault](https://github.c
 3. Search for **VehicleVault**.
 4. Enter your connection details:
    - **VehicleVault URL:** `https://voertuigen.romanas.nl` (or local IP like `http://192.168.1.100:3084`)
-   - **API Key:** *(Optional)* Create an API key in **VehicleVault → Instellingen → Gebruikers & Toegang** if you have authentication enabled.
+   - **API Key:** *(Optional)* Create an API key in **VehicleVault → Settings → Users & Access** if you have authentication enabled.
 5. Click **Submit**. Home Assistant will immediately detect all active vehicles and create their sensors!
 
 ---
@@ -59,16 +59,16 @@ Official Home Assistant custom integration for **[VehicleVault](https://github.c
 
 | Sensor | Entity ID Example | Description |
 |---|---|---|
-| **Kilometerstand** | `sensor.kia_niro_kilometerstand` | Current vehicle odometer in km |
-| **APK Vervaldatum** | `sensor.kia_niro_apk_vervaldatum` | Official RDW inspection expiry date |
-| **APK Dagen Resterend** | `sensor.kia_niro_apk_dagen_resterend` | Days remaining until APK expiry |
+| **Odometer** | `sensor.kia_niro_odometer` | Current vehicle odometer in km |
+| **APK Expiration Date** | `sensor.kia_niro_apk_expiration_date` | Official RDW inspection expiry date |
+| **APK Days Remaining** | `sensor.kia_niro_apk_days_remaining` | Days remaining until APK expiry |
 | **APK Status** | `sensor.kia_niro_apk_status` | Status (`ok`, `due_soon`, `overdue`) |
-| **Verbruik (km/L)** | `sensor.kia_niro_verbruik_km_l` | Average fuel economy in km/L |
-| **Verbruik (L/100km)** | `sensor.kia_niro_verbruik_l_100km` | Average fuel economy in L/100km |
-| **Laatste Tankbeurt** | `sensor.kia_niro_laatste_tankbeurt` | Date of last fueling or charging stop |
-| **Laatste Tankkosten** | `sensor.kia_niro_laatste_tankkosten` | Cost of last fill-up in € |
-| **Laatst Getankt Volume**| `sensor.kia_niro_laatst_getankt_volume` | Liters pumped or kWh charged |
-| **Onderhoudsmeldingen** | `sensor.kia_niro_onderhoudsmeldingen` | Count of service items due/overdue |
+| **Fuel Economy (km/L)** | `sensor.kia_niro_fuel_economy_km_l` | Average fuel economy in km/L |
+| **Fuel Consumption (L/100km)** | `sensor.kia_niro_fuel_consumption_l_100km` | Average fuel economy in L/100km |
+| **Last Refuel Date** | `sensor.kia_niro_last_refuel_date` | Date of last fueling or charging stop |
+| **Last Refuel Cost** | `sensor.kia_niro_last_refuel_cost` | Cost of last fill-up in € |
+| **Last Refuel Volume**| `sensor.kia_niro_last_refuel_volume` | Liters pumped or kWh charged |
+| **Maintenance Alerts** | `sensor.kia_niro_maintenance_alerts` | Count of service items due/overdue |
 
 ---
 
@@ -81,20 +81,20 @@ type: entities
 title: 🚗 KIA NIRO
 show_header_toggle: false
 entities:
-  - entity: sensor.kia_niro_kilometerstand
-    name: Huidige Kilometerstand
-  - entity: sensor.kia_niro_apk_vervaldatum
-    name: APK Vervaldatum
-  - entity: sensor.kia_niro_apk_dagen_resterend
-    name: Dagen tot APK
-  - entity: sensor.kia_niro_verbruik_km_l
-    name: Gemiddeld Verbruik
-  - entity: sensor.kia_niro_laatste_tankbeurt
-    name: Laatst Getankt
-  - entity: sensor.kia_niro_laatste_tankkosten
-    name: Laatste Kosten
-  - entity: sensor.kia_niro_onderhoudsmeldingen
-    name: Onderhoudswaarschuwingen
+  - entity: sensor.kia_niro_odometer
+    name: Odometer
+  - entity: sensor.kia_niro_apk_expiration_date
+    name: APK Expiration Date
+  - entity: sensor.kia_niro_apk_days_remaining
+    name: Days until APK
+  - entity: sensor.kia_niro_fuel_economy_km_l
+    name: Fuel Economy
+  - entity: sensor.kia_niro_last_refuel_date
+    name: Last Refuel Date
+  - entity: sensor.kia_niro_last_refuel_cost
+    name: Last Refuel Cost
+  - entity: sensor.kia_niro_maintenance_alerts
+    name: Maintenance Alerts
 ```
 
 ---
@@ -102,4 +102,3 @@ entities:
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-

@@ -37,7 +37,7 @@ async def async_setup_entry(
                 coordinator=coordinator,
                 vehicle_id=vehicle_id,
                 sensor_type="odometer",
-                name="Kilometerstand",
+                name="Odometer",
                 icon="mdi:counter",
                 native_unit=UnitOfLength.KILOMETERS,
                 device_class=SensorDeviceClass.DISTANCE,
@@ -46,13 +46,13 @@ async def async_setup_entry(
             )
         )
 
-        # 2. APK Expiration Date
+        # 2. APK / MOT Expiration Date
         entities.append(
             VehicleVaultSensor(
                 coordinator=coordinator,
                 vehicle_id=vehicle_id,
-                sensor_type="apk_date",
-                name="APK Vervaldatum",
+                sensor_type="apk_expiration_date",
+                name="APK Expiration Date",
                 icon="mdi:calendar-check",
                 device_class=SensorDeviceClass.DATE,
                 value_fn=lambda v: v.get("apk", {}).get("expiration_date"),
@@ -64,14 +64,14 @@ async def async_setup_entry(
             VehicleVaultSensor(
                 coordinator=coordinator,
                 vehicle_id=vehicle_id,
-                sensor_type="apk_days",
-                name="APK Dagen Resterend",
+                sensor_type="apk_days_remaining",
+                name="APK Days Remaining",
                 icon="mdi:shield-alert",
                 native_unit="d",
                 value_fn=lambda v: v.get("apk", {}).get("days_remaining"),
                 attrs_fn=lambda v: {
                     "apk_status": v.get("apk", {}).get("status"),
-                    "vervaldatum": v.get("apk", {}).get("expiration_date"),
+                    "expiration_date": v.get("apk", {}).get("expiration_date"),
                 },
             )
         )
@@ -88,13 +88,13 @@ async def async_setup_entry(
             )
         )
 
-        # 5. Consumption km/L
+        # 5. Fuel Economy km/L
         entities.append(
             VehicleVaultSensor(
                 coordinator=coordinator,
                 vehicle_id=vehicle_id,
-                sensor_type="consumption_km_per_l",
-                name="Verbruik (km/L)",
+                sensor_type="fuel_economy_km_l",
+                name="Fuel Economy (km/L)",
                 icon="mdi:gas-station",
                 native_unit="km/L",
                 state_class=SensorStateClass.MEASUREMENT,
@@ -102,13 +102,13 @@ async def async_setup_entry(
             )
         )
 
-        # 6. Consumption L/100km
+        # 6. Fuel Consumption L/100km
         entities.append(
             VehicleVaultSensor(
                 coordinator=coordinator,
                 vehicle_id=vehicle_id,
-                sensor_type="consumption_l_100km",
-                name="Verbruik (L/100km)",
+                sensor_type="fuel_consumption_l_100km",
+                name="Fuel Consumption (L/100km)",
                 icon="mdi:gauge",
                 native_unit="L/100km",
                 state_class=SensorStateClass.MEASUREMENT,
@@ -116,26 +116,26 @@ async def async_setup_entry(
             )
         )
 
-        # 7. Last Fuel Date
+        # 7. Last Refuel Date
         entities.append(
             VehicleVaultSensor(
                 coordinator=coordinator,
                 vehicle_id=vehicle_id,
-                sensor_type="last_fuel_date",
-                name="Laatste Tankbeurt",
+                sensor_type="last_refuel_date",
+                name="Last Refuel Date",
                 icon="mdi:calendar",
                 device_class=SensorDeviceClass.DATE,
                 value_fn=lambda v: v.get("fuel_stats", {}).get("last_fuel_date"),
             )
         )
 
-        # 8. Last Fuel Cost
+        # 8. Last Refuel Cost
         entities.append(
             VehicleVaultSensor(
                 coordinator=coordinator,
                 vehicle_id=vehicle_id,
-                sensor_type="last_fuel_cost",
-                name="Laatste Tankkosten",
+                sensor_type="last_refuel_cost",
+                name="Last Refuel Cost",
                 icon="mdi:cash",
                 native_unit="EUR",
                 device_class=SensorDeviceClass.MONETARY,
@@ -143,19 +143,19 @@ async def async_setup_entry(
             )
         )
 
-        # 9. Last Fuel Volume
+        # 9. Last Refuel Volume
         entities.append(
             VehicleVaultSensor(
                 coordinator=coordinator,
                 vehicle_id=vehicle_id,
-                sensor_type="last_fuel_volume",
-                name="Laatst Getankt Volume",
+                sensor_type="last_refuel_volume",
+                name="Last Refuel Volume",
                 icon="mdi:fuel",
                 native_unit="L",
                 value_fn=lambda v: v.get("fuel_stats", {}).get("last_fuel_liters") or v.get("fuel_stats", {}).get("last_kwh"),
                 attrs_fn=lambda v: {
                     "station_name": v.get("fuel_stats", {}).get("last_station_name"),
-                    "price_per_liter": v.get("fuel_stats", {}).get("last_fuel_price_per_liter"),
+                    "price_per_unit": v.get("fuel_stats", {}).get("last_fuel_price_per_liter"),
                     "energy_type": v.get("fuel_stats", {}).get("last_energy_type"),
                     "kwh": v.get("fuel_stats", {}).get("last_kwh"),
                 },
@@ -168,7 +168,7 @@ async def async_setup_entry(
                 coordinator=coordinator,
                 vehicle_id=vehicle_id,
                 sensor_type="maintenance_alerts",
-                name="Onderhoudsmeldingen",
+                name="Maintenance Alerts",
                 icon="mdi:wrench-alert",
                 value_fn=lambda v: v.get("maintenance", {}).get("alerts_count", 0),
                 attrs_fn=lambda v: {
@@ -218,7 +218,7 @@ class VehicleVaultSensor(CoordinatorEntity[VehicleVaultDataCoordinator], SensorE
     @property
     def name(self) -> str:
         """Return full friendly name of sensor."""
-        v_name = self.vehicle.get("name") or "Voertuig"
+        v_name = self.vehicle.get("name") or "Vehicle"
         return f"{v_name} {self._attr_name_suffix}"
 
     @property
@@ -239,9 +239,9 @@ class VehicleVaultSensor(CoordinatorEntity[VehicleVaultDataCoordinator], SensorE
     def device_info(self) -> DeviceInfo:
         """Return device information linking sensor to its vehicle."""
         v = self.vehicle
-        v_name = v.get("name") or "Voertuig"
+        v_name = v.get("name") or "Vehicle"
         make = v.get("make") or "VehicleVault"
-        model = v.get("model") or "Auto"
+        model = v.get("model") or "Car"
         plate = v.get("license_plate")
 
         return DeviceInfo(
@@ -252,4 +252,3 @@ class VehicleVaultSensor(CoordinatorEntity[VehicleVaultDataCoordinator], SensorE
             serial_number=plate or self.vehicle_id,
             suggested_area="Garage",
         )
-

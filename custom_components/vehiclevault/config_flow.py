@@ -73,7 +73,7 @@ class VehicleVaultConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             else:
                 data = validation["data"]
                 total = len(data.get("vehicles", []))
-                title = f"VehicleVault ({total} voertuig{'en' if total != 1 else ''})"
+                title = f"VehicleVault ({total} vehicle{'s' if total != 1 else ''})"
                 return self.async_create_entry(
                     title=title,
                     data={

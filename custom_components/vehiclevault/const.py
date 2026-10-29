@@ -17,12 +17,12 @@ SENSOR_TYPES = {
         "device_class": "distance",
         "state_class": "total_increasing",
     },
-    "apk_date": {
+    "apk_expiration_date": {
         "name": "APK Expiration Date",
         "icon": "mdi:calendar-check",
         "device_class": "date",
     },
-    "apk_days": {
+    "apk_days_remaining": {
         "name": "APK Days Remaining",
         "icon": "mdi:shield-alert",
         "unit": "d",
@@ -31,29 +31,29 @@ SENSOR_TYPES = {
         "name": "APK Status",
         "icon": "mdi:shield-check",
     },
-    "consumption_km_per_l": {
+    "fuel_economy_km_l": {
         "name": "Fuel Economy (km/L)",
         "icon": "mdi:gas-station",
         "unit": "km/L",
     },
-    "consumption_l_100km": {
+    "fuel_consumption_l_100km": {
         "name": "Fuel Consumption (L/100km)",
         "icon": "mdi:gauge",
         "unit": "L/100km",
     },
-    "last_fuel_date": {
-        "name": "Last Fill-up Date",
+    "last_refuel_date": {
+        "name": "Last Refuel Date",
         "icon": "mdi:calendar",
         "device_class": "date",
     },
-    "last_fuel_cost": {
-        "name": "Last Fill-up Cost",
+    "last_refuel_cost": {
+        "name": "Last Refuel Cost",
         "icon": "mdi:cash",
         "unit": "EUR",
         "device_class": "monetary",
     },
-    "last_fuel_liters": {
-        "name": "Last Fill-up Volume",
+    "last_refuel_volume": {
+        "name": "Last Refuel Volume",
         "icon": "mdi:fuel",
         "unit": "L",
     },
@@ -62,4 +62,3 @@ SENSOR_TYPES = {
         "icon": "mdi:wrench-alert",
     },
 }
-

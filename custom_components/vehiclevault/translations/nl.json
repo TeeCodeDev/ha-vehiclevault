@@ -30,6 +30,39 @@
         }
       }
     }
+  },
+  "entity": {
+    "sensor": {
+      "odometer": {
+        "name": "Kilometerstand"
+      },
+      "apk_expiration_date": {
+        "name": "APK Vervaldatum"
+      },
+      "apk_days_remaining": {
+        "name": "APK Dagen Resterend"
+      },
+      "apk_status": {
+        "name": "APK Status"
+      },
+      "fuel_economy_km_l": {
+        "name": "Verbruik (km/L)"
+      },
+      "fuel_consumption_l_100km": {
+        "name": "Verbruik (L/100km)"
+      },
+      "last_refuel_date": {
+        "name": "Laatste Tankbeurt"
+      },
+      "last_refuel_cost": {
+        "name": "Laatste Tankkosten"
+      },
+      "last_refuel_volume": {
+        "name": "Laatst Getankt Volume"
+      },
+      "maintenance_alerts": {
+        "name": "Onderhoudsmeldingen"
+      }
+    }
   }
 }
-

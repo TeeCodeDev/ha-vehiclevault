@@ -30,6 +30,39 @@
         }
       }
     }
+  },
+  "entity": {
+    "sensor": {
+      "odometer": {
+        "name": "Odometer"
+      },
+      "apk_expiration_date": {
+        "name": "APK Expiration Date"
+      },
+      "apk_days_remaining": {
+        "name": "APK Days Remaining"
+      },
+      "apk_status": {
+        "name": "APK Status"
+      },
+      "fuel_economy_km_l": {
+        "name": "Fuel Economy (km/L)"
+      },
+      "fuel_consumption_l_100km": {
+        "name": "Fuel Consumption (L/100km)"
+      },
+      "last_refuel_date": {
+        "name": "Last Refuel Date"
+      },
+      "last_refuel_cost": {
+        "name": "Last Refuel Cost"
+      },
+      "last_refuel_volume": {
+        "name": "Last Refuel Volume"
+      },
+      "maintenance_alerts": {
+        "name": "Maintenance Alerts"
+      }
+    }
   }
 }
-
