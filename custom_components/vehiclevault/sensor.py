@@ -252,3 +252,4 @@ class VehicleVaultSensor(CoordinatorEntity[VehicleVaultDataCoordinator], SensorE
             serial_number=plate or self.vehicle_id,
             suggested_area="Garage",
         )
+

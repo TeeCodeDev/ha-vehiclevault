@@ -70,3 +70,4 @@ class VehicleVaultDataCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
         vehicles_list = data.get("vehicles", [])
         return {v["id"]: v for v in vehicles_list if "id" in v}
+

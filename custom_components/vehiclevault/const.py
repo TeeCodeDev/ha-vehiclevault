@@ -62,3 +62,4 @@ SENSOR_TYPES = {
         "icon": "mdi:wrench-alert",
     },
 }
+
