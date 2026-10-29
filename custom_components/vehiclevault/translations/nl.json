@@ -1,0 +1,34 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Verbinden met VehicleVault",
+        "description": "Voer het webadres van je VehicleVault server in. Als je authenticatie aan hebt staan, voer dan ook een API-sleutel in (aan te maken in VehicleVault > Instellingen > Gebruikers & Toegang).",
+        "data": {
+          "url": "VehicleVault URL (bijv. https://voertuigen.romanas.nl of http://192.168.1.100:3084)",
+          "api_key": "API-sleutel (optioneel)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Kan geen verbinding maken met VehicleVault. Controleer de URL en of de container draait.",
+      "invalid_auth": "Ongeldige API-sleutel of onvoldoende rechten.",
+      "invalid_response": "Onverwacht antwoord van de VehicleVault server.",
+      "unknown": "Onbekende fout opgetreden."
+    },
+    "abort": {
+      "already_configured": "Deze VehicleVault server is al geconfigureerd in Home Assistant."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "VehicleVault Instellingen",
+        "description": "Stel in hoe vaak Home Assistant actuele telemetrie en onderhoudswaarschuwingen ophaalt uit VehicleVault.",
+        "data": {
+          "scan_interval": "Update interval (in seconden, bijv. 300 voor 5 minuten)"
+        }
+      }
+    }
+  }
+}

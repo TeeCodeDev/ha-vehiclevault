@@ -1,0 +1,12 @@
+{
+  "domain": "vehiclevault",
+  "name": "VehicleVault",
+  "codeowners": ["@TeeCodeDev"],
+  "config_flow": true,
+  "documentation": "https://github.com/TeeCodeDev/ha-vehiclevault",
+  "issue_tracker": "https://github.com/TeeCodeDev/ha-vehiclevault/issues",
+  "integration_type": "hub",
+  "iot_class": "local_polling",
+  "version": "1.0.0",
+  "requirements": []
+}
