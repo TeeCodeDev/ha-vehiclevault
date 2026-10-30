@@ -1,4 +1,7 @@
-# VehicleVault for Home Assistant 🚗⚡
+<div align="center">
+  <img src="custom_components/vehiclevault/icon.png" width="140" alt="VehicleVault Logo" />
+  <h1>VehicleVault for Home Assistant 🚗⚡</h1>
+</div>
 
 [![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://hacs.xyz)
 [![GitHub release](https://img.shields.io/github/v/release/TeeCodeDev/ha-vehiclevault)](https://github.com/TeeCodeDev/ha-vehiclevault/releases)
@@ -49,7 +52,7 @@ Official Home Assistant custom integration for **[VehicleVault](https://github.c
 2. Click **Add Integration** in the bottom right corner.
 3. Search for **VehicleVault**.
 4. Enter your connection details:
-   - **VehicleVault URL:** `https://voertuigen.romanas.nl` (or local IP like `http://192.168.1.100:3084`)
+   - **VehicleVault URL:** `http://192.168.1.100:3084` (or your domain, e.g. `https://vehicles.example.com`)
    - **API Key:** *(Optional)* Create an API key in **VehicleVault → Settings → Users & Access** if you have authentication enabled.
 5. Click **Submit**. Home Assistant will immediately detect all active vehicles and create their sensors!
 

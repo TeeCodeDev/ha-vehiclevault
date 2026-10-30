@@ -5,7 +5,7 @@
         "title": "Verbinden met VehicleVault",
         "description": "Voer het webadres van je VehicleVault server in. Als je authenticatie aan hebt staan, voer dan ook een API-sleutel in (aan te maken in VehicleVault > Instellingen > Gebruikers & Toegang).",
         "data": {
-          "url": "VehicleVault URL (bijv. https://voertuigen.romanas.nl of http://192.168.1.100:3084)",
+          "url": "VehicleVault URL (bijv. http://192.168.1.100:3084 of https://vehicles.example.com)",
           "api_key": "API-sleutel (optioneel)"
         }
       }
