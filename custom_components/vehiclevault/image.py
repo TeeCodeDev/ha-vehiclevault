@@ -105,3 +105,4 @@ class VehicleVaultImage(CoordinatorEntity[VehicleVaultDataCoordinator], ImageEnt
             serial_number=plate or self.vehicle_id,
             suggested_area="Garage",
         )
+
