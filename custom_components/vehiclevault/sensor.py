@@ -1,6 +1,7 @@
 """Sensor platform for VehicleVault."""
 from __future__ import annotations
 
+from datetime import date
 from typing import Any
 
 from homeassistant.components.sensor import (
@@ -17,6 +18,18 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN
 from .coordinator import VehicleVaultDataCoordinator
+
+
+def _parse_date(val: Any) -> date | None:
+    """Safely parse an ISO date string into a datetime.date object for SensorDeviceClass.DATE."""
+    if not val:
+        return None
+    if isinstance(val, date):
+        return val
+    try:
+        return date.fromisoformat(str(val).strip()[:10])
+    except (ValueError, TypeError):
+        return None
 
 
 async def async_setup_entry(
@@ -42,7 +55,8 @@ async def async_setup_entry(
                 native_unit=UnitOfLength.KILOMETERS,
                 device_class=SensorDeviceClass.DISTANCE,
                 state_class=SensorStateClass.TOTAL_INCREASING,
-                value_fn=lambda v: v.get("odometer"),
+                suggested_display_precision=0,
+                value_fn=lambda v: round(float(v["odometer"])) if v.get("odometer") is not None else None,
             )
         )
 
@@ -55,7 +69,7 @@ async def async_setup_entry(
                 name="APK Expiration Date",
                 icon="mdi:calendar-check",
                 device_class=SensorDeviceClass.DATE,
-                value_fn=lambda v: v.get("apk", {}).get("expiration_date"),
+                value_fn=lambda v: _parse_date(v.get("apk", {}).get("expiration_date")),
             )
         )
 
@@ -68,6 +82,8 @@ async def async_setup_entry(
                 name="APK Days Remaining",
                 icon="mdi:shield-alert",
                 native_unit="d",
+                state_class=SensorStateClass.MEASUREMENT,
+                suggested_display_precision=0,
                 value_fn=lambda v: v.get("apk", {}).get("days_remaining"),
                 attrs_fn=lambda v: {
                     "apk_status": v.get("apk", {}).get("status"),
@@ -98,6 +114,7 @@ async def async_setup_entry(
                 icon="mdi:gas-station",
                 native_unit="km/L",
                 state_class=SensorStateClass.MEASUREMENT,
+                suggested_display_precision=2,
                 value_fn=lambda v: v.get("fuel_stats", {}).get("consumption_km_per_liter"),
             )
         )
@@ -112,6 +129,7 @@ async def async_setup_entry(
                 icon="mdi:gauge",
                 native_unit="L/100km",
                 state_class=SensorStateClass.MEASUREMENT,
+                suggested_display_precision=2,
                 value_fn=lambda v: v.get("fuel_stats", {}).get("consumption_l_per_100km"),
             )
         )
@@ -125,7 +143,7 @@ async def async_setup_entry(
                 name="Last Refuel Date",
                 icon="mdi:calendar",
                 device_class=SensorDeviceClass.DATE,
-                value_fn=lambda v: v.get("fuel_stats", {}).get("last_fuel_date"),
+                value_fn=lambda v: _parse_date(v.get("fuel_stats", {}).get("last_fuel_date")),
             )
         )
 
@@ -139,6 +157,7 @@ async def async_setup_entry(
                 icon="mdi:cash",
                 native_unit="EUR",
                 device_class=SensorDeviceClass.MONETARY,
+                suggested_display_precision=2,
                 value_fn=lambda v: v.get("fuel_stats", {}).get("last_fuel_cost"),
             )
         )
@@ -152,6 +171,8 @@ async def async_setup_entry(
                 name="Last Refuel Volume",
                 icon="mdi:fuel",
                 native_unit="L",
+                state_class=SensorStateClass.MEASUREMENT,
+                suggested_display_precision=2,
                 value_fn=lambda v: v.get("fuel_stats", {}).get("last_fuel_liters") or v.get("fuel_stats", {}).get("last_kwh"),
                 attrs_fn=lambda v: {
                     "station_name": v.get("fuel_stats", {}).get("last_station_name"),
@@ -169,7 +190,9 @@ async def async_setup_entry(
                 vehicle_id=vehicle_id,
                 sensor_type="maintenance_alerts",
                 name="Maintenance Alerts",
-                icon="mdi:wrench-alert",
+                icon="mdi:car-wrench",
+                state_class=SensorStateClass.MEASUREMENT,
+                suggested_display_precision=0,
                 value_fn=lambda v: v.get("maintenance", {}).get("alerts_count", 0),
                 attrs_fn=lambda v: {
                     "alerts": v.get("maintenance", {}).get("alerts", []),
@@ -193,6 +216,7 @@ class VehicleVaultSensor(CoordinatorEntity[VehicleVaultDataCoordinator], SensorE
         native_unit: str | None = None,
         device_class: SensorDeviceClass | None = None,
         state_class: SensorStateClass | None = None,
+        suggested_display_precision: int | None = None,
         value_fn: Any = None,
         attrs_fn: Any = None,
     ) -> None:
@@ -205,6 +229,8 @@ class VehicleVaultSensor(CoordinatorEntity[VehicleVaultDataCoordinator], SensorE
         self._attr_native_unit_of_measurement = native_unit
         self._attr_device_class = device_class
         self._attr_state_class = state_class
+        if suggested_display_precision is not None:
+            self._attr_suggested_display_precision = suggested_display_precision
         self._value_fn = value_fn
         self._attrs_fn = attrs_fn
 
